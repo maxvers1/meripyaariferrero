@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I will love you forever and a day...</title>
+    <style>
+        /* ... (Your existing CSS, with changes below) ... */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            min-height: 100dvh;
+            perspective: 1000px;
+            font: 1em/1.4 "Poppins", sans-serif;
+            overflow: hidden;
+            color: hsl(180 68% 5%);
+            /* --- Change Here: Set the background image on the body --- */
+            background: url("genfinal.jpeg") no-repeat center center fixed;
+            background-size: cover; /* Ensure it covers the whole page */
+            /* Remove the gradient background */
+            /* background: linear-gradient(to right, #ff7eb9, #ff65a3, #ff165d); */
+            /* background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite; */
+        }
+
+        /* Remove the keyframes animation, as it's no longer needed */
+        /* @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        } */
+        .book {
+          position: relative;
+          display: flex;
+          margin: auto;
+          width: 42cqmin; /* Increased width */
+          pointer-events: none;
+          transform-style: preserve-3d;
+          transition: translate 1s;
+          translate: calc(min(var(--c), 1) * 50%) 0%;
+          rotate: 1 0 0 30deg;
+        }
+
+        .page {
+          --thickness: 4;
+          flex: none;
+          display: flex;
+          width: 100%;
+          font-size: 2.2cqmin; /* Slightly increased font size */
+          pointer-events: all;
+          user-select: none;
+          transform-style: preserve-3d;
+          transform-origin: left center;
+          transition: transform 1s,
+              rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+          translate: calc(var(--i) * -100%) 0px 0px;
+          transform: translateZ(calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * 0.23cqmin)));
+          rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+        }
+
+        .front,
+        .back {
+          position: relative;
+          flex: none;
+          width: 100%;
+          backface-visibility: hidden;
+          overflow: hidden;
+          background-color: #fff;
+          translate: 0px;
+        }
+
+        .back {
+          translate: -100% 0;
+          rotate: 0 1 0 180deg;
+        }
+
+        .book {
+          counter-reset: page -1;
+        }
+
+        .book a {
+          color: inherit;
+        }
+
+        .page {
+          box-shadow: 0em 0.5em 1em -0.2em #00000020;
+        }
+
+        .front,
+        .back {
+          display: flex;
+          flex-flow: column wrap;
+          justify-content: space-between;
+          padding: 2em;
+          border: 1px solid #0002;
+        }
+
+        .front:has(img),
+        .back:has(img) {
+          padding: 0;
+        }
+
+        .front img,
+        .back img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .front::after,
+        .back::after {
+          position: absolute;
+          bottom: 1em;
+          counter-increment: page;
+          content: counter(page) ".";
+          font-size: 0.8em;
+        }
+
+        .cover::after {
+          content: "";
+        }
+
+        .front::after {
+          right: 1em;
+        }
+
+        .front {
+          background: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+          border-radius: 0.1em 0.5em 0.5em 0.1em;
+        }
+
+        .back::after {
+          left: 1em;
+        }
+
+        .back {
+          background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+          border-radius: 0.5em 0.1em 0.1em 0.5em;
+        }
+
+        .cover {
+            /* Keep the radial-gradient for the book cover */
+          background: radial-gradient(
+                  circle farthest-corner at 80% 20%,
+                  hsl(150 80% 20% / 0.3) 0%,
+                  hsl(170 60% 10% / 0.1) 100%
+              ),
+              hsl(231, 32%, 29%) url("./frontpage.jpg") 50% / cover;  /* Keep this for your cover page */
+          color: hsl(0, 100%, 30%); /* Dark red text color for cover page */
+        }
+
+        h1,
+        h2,
+        h3 {
+          margin-bottom: 1px;
+          color: hsl(0, 100%, 30%); /* Dark red heading color */
+        }
+
+        p {
+          margin-top: 1px;
+          margin-bottom: 8px;
+          line-height: 1.4;
+          color: hsl(0, 100%, 30%); /* Dark red text color for paragraphs */
+        }
+
+        .front,
+        .back {
+          padding: 1.5em;
+          color: hsl(0, 100%, 30%); /* Dark red text color for front and back pages */
+        }
+
+        .book {
+          width: 40cqmin; /* Slightly increased width */
+        }
+
+        .page {
+          font-size: 2cqmin; /* Slightly increased font size */
+        }
+
+        p:last-child {
+          margin-bottom: 0;
+        }
+
+        .front,
+        .back {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          padding: 1.5em;
+        }
+
+        h2 {
+          margin-bottom: 5px;
+        }
+
+        p {
+          margin-top: 5px;
+          line-height: 1.4;
+        }
+
+
+        /* Keep the emoji animation styles, they don't interfere */
+        .emoji {
+          position: absolute;
+          font-size: 3rem;
+          opacity: 0;
+          animation: floatEmojis 6s ease-in-out infinite;
+        }
+
+        @keyframes floatEmojis {
+          0% {
+            transform: translateY(100px);
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(-100px) rotate(20deg);
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateY(100px);
+            opacity: 1;
+          }
+        }
+
+        /* Add random timing for each emoji */
+        .emoji:nth-child(1) {
+          animation-delay: 0s;
+          left: 10%;
+        }
+        .emoji:nth-child(2) {
+          animation-delay: 1s;
+          left: 20%;
+        }
+        .emoji:nth-child(3) {
+          animation-delay: 2s;
+          left: 30%;
+        }
+        .emoji:nth-child(4) {
+          animation-delay: 3s;
+          left: 40%;
+        }
+        .emoji:nth-child(5) {
+          animation-delay: 4s;
+          left: 50%;
+        }
+        .emoji:nth-child(6) {
+          animation-delay: 5s;
+          left: 60%;
+        }
+        .emoji:nth-child(7) {
+          animation-delay: 6s;
+          left: 70%;
+        }
+        .emoji:nth-child(8) {
+          animation-delay: 7s;
+          left: 80%;
+        }
+        .emoji:nth-child(9) {
+          animation-delay: 8s;
+          left: 90%;
+        }
+#playButton {
+            position: fixed; /* Or absolute, depending on your layout */
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            background-color: #ff65a3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000; /* Ensure it's above other elements */
+            display: none; /* Initially hidden */
+        }
+
+        #playButton:hover {
+            background-color: #ff4d79;
+        }
+    </style>
+</head>
+<body>
+    <audio id="myAudio" loop>
+        <source src="herewithme2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button id="playButton">Play Music</button>
+
+    <div class="book">
+        <div class="page">
+            <div class="front cover">
+                <h1 style="color: rgb(254, 254, 254); text-shadow: 5px 2px 5px rgb(0, 0, 0);">
+                    Meri pyaari Ferrero...❤️
+                </h1>
+                <p style="color: rgb(248, 248, 248); text-shadow: 5px 2px 5px rgb(0, 0, 0);">
+                    2025.<br />I will love you forever and a Day!
+                </p>
+            </div>
+            <div class="back">
+                <h2>A Special Beginning ❤️✨</h2>
+                <p>Everything started with me unfollowing you and sending you a 'sorry' text as an apology. Quite embarassing, I know! Ahaha, we were just two crackheads with brainrotted humour sending each other reels the whole day out😋. Look at us now, 22 & so in love, hahaha! 💞
+
+                  If someone would've told me back then that this girl's going to be the love of my life, I'd have called them crazy and laughed it off... Who knew, who knew this absolute gorgeous piece made out of stardust is going to be the one for me.✋🏻😔</p>
+                <p>
+                </p>
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h2>Meri pyaari biscuit,</h2>
+                <p>
+                  You are so gorgeous, every inch, every cell of you is beautiful. And you might think, it's way too soon to say this but, ykw, imma still say it, You are exactly what I've always wanted and prayed for. Since the day I met you, I've never questioned myself about wanting to be with you. Because I just knew it straight away, you are what I've always wanted. Too corny!!!! I know but let me, hahaha.....💞✨
+
+                </p>
+            </div>
+            <div class="back">
+                <img src="./bwus.jpg" alt="Img 1" />
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h2>meri galeech aurat,</h2>
+                <p>
+                  life's changing so fast! Haina? 2021 wale somesh and farhat would've just laughed it off if someone told them they're going to be together someday. All they knew was to share reels, judge people together and idhar udhar, duniya bhar ki faltu baatein, haha. We've come so far, nai? and I'm super proud of the journey we've shared✨, from carefree Students jinko career ki kuch pdi hi nahi thi to this😋🫴🏻, maturity really got us, haina?✋🏻😔 But you know what? I'm so happy I got to know such a wonderful and charismatic person like you😚. Without you life would've been so much harder, oh, it'd have been!🚶🏻 
+                </p>
+            </div>
+            <div class="back">
+                <h2></h2>
+                <p>
+                  Might sound like an old dude saying this but life will change, haina? both of us will get coiled up in our roz marra ke kaam, no matter how hard we try, but I'm so glad I'll get to see these changes with you and only you meri rasmalai! Tumhare saath I want to see it all, pyaari baatein to kalesh and uske baad tumhe manana (galti to aakhir main meri hi honi hai humesha, nahi?😔). From buying phool for you to buying phool gobi for our home I want to see it all with you....(I'm so fucking cringe ik😋👈🏻)
+
+                </p>
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h2></h2>
+                <p>
+                  Well already wrote you a shit ton of letters, so I don't think I've anything left to tell you, that I haven't told you a zillion times already. But I just want to tell you this (again for the zillionth time, hehe🫵🏻😎) that no matter what life throws at us, I'll always be there, no matter what, NO MATTER WHAT!!!! I'll be there for you at your highs and especially at your lows😚.You're loved in ways you don't even realise baby, mwah😚♥
+
+                </p>
+            </div>
+            <div class="back">
+                <img src="./3rd.jpg" alt="Img 1" />
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h1>my absolutely gorgeous girl💗,</h1>
+                <p>
+                  When I say this year been the best year of my life, I don't just mean it, I FUCKING MEAN IT! This past year with you has been, hands down, the most incredible, laugh-filled, adventure-packed, and love-soaked year of my life, and it's all because of you!🛌🏻♥ I mean, who needs personal growth, productivity, or a social life when you've got someone as amazing as you to share in all the chaos and excitement?🎯🍔💗
+                </p>
+            </div>
+            <div class="back">
+                <h1></h1>
+                <p>
+                  I know you hate long paragraphs but fucking bear with it but I just can't help myself when it comes to expressing how much you mean to me✋🏻😠! And yes, I'm aware that there are things you don't share with me, things that you keep hidden away, but I want you to know that I'm here for you, always✋🏻😚. I'll do everything in my power to make things right, to be your rock, your confidant, and your partner in every sense of the word😚♥. Happy Valentine's baby🛌🏻💗
+                </p>
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h2></h2>
+                <p>
+                  This one is so randommmmm but you're so loved and in ways you don't even realise, and baby you are not hard to love you never were and never will be hard to love🎀. Infact loving you is the easiest thing i have ever done, you are a blessing to me😌. I always wanted to experience this, thissss very beautiful emotionnn, and I get to experience it now all thanks to you ma'am😋♥. And filmy ik but no matter what you do, kitne hi gimmicks kro, dry text kro, ya kalesh kro lmao, I'm never going to stop loving you my prettiest girl, mwah😚💗. Ilysssssmmmmm♥
+                </p>
+            </div>
+            <div class="back">
+                <h2></h2>
+                <p>
+                  <img src="./headons.jpg" alt="Img 1" />
+                </p>
+            </div>
+        </div>
+        <div class="page">
+            <div class="front">
+                <h2></h2>
+                <p>
+                  Cringe cringe cringe alert but gotta ask you thisssssss, Bbg, be my valentine forever, my forever love. One who I can always count on? And badle main, well shit tons of long hugs, roz roz lambe naps and chai Puri as breakfast😋, dealllll?????🫴🏻
+
+                </p>
+            </div>
+            <div class="back">
+                <h2></h2>
+                <p>
+                  Miss Farhatnaaz Quadri, i want a future with you, i want to marry you some day. i can see it, I can see it all, i can see us sitting in the huge backyard of our pink pinterest-y home with kids and our pets playing around, I can see us sipping tea and smoking cigs sabse chupke in our balcony, I can see us getting ready for work together and picking each other's outfit of the day and ofc what cologne to put on lmao(you're dating a fraghead I mean). I see it all Farhat. I see it all!❤✨ مجھے تم سے بہت محبت ہے، میری رس ملائی😚✨
+                </p>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="front">
+                <img src="./shadowus.jpg" alt="Img 1" />
+            </div>
+            <div class="back cover">
+                <h3></h3>
+                <p>
+                    <br /><a
+                        href=""
+                        target="_blank"
+                        rel="nofollow"></a>
+
+                    <br />
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="emoji">🎯🍔</div>
+    <div class="emoji">🧦💤</div>
+    <div class="emoji">❤️</div>
+    <div class="emoji">😘</div>
+    <div class="emoji">👨‍❤️‍💋‍👨</div>
+    <div class="emoji">💓</div>
+    <div class="emoji">❣️</div>
+    <div class="emoji">💘</div>
+
+
+    <script>
+        const flipBook = (elBook) => {
+            elBook.style.setProperty("--c", 0); // Set current page
+            elBook.querySelectorAll(".page").forEach((page, idx) => {
+                page.style.setProperty("--i", idx);
+                page.addEventListener("click", (evt) => {
+                    if (evt.target.closest("a")) return;
+                    const curr = evt.target.closest(".back") ? idx : idx + 1;
+                    elBook.style.setProperty("--c", curr);
+                });
+            });
+        };
+
+        document.querySelectorAll(".book").forEach(flipBook);
+
+        // --- Audio Playback (Improved) ---
+        const audio = document.getElementById('myAudio');
+        const playButton = document.getElementById('playButton');
+        let hasPlayed = false; // Flag to prevent multiple plays
+
+        function tryPlayAudio() {
+          if (!hasPlayed) {
+            audio.play()
+              .then(() => {
+                hasPlayed = true;
+                playButton.style.display = 'none'; // Hide button after successful play
+                console.log('Audio playing!');
+              })
+              .catch(error => {
+                console.log('Autoplay failed:', error);
+                playButton.style.display = 'block'; // Show button if autoplay fails
+              });
+          }
+        }
+
+        // Play on button click
+        playButton.addEventListener('click', () => {
+          tryPlayAudio();
+        });
+
+        // Try playing on any user interaction (initial attempt)
+        document.addEventListener('click', tryPlayAudio, { once: true });
+        document.addEventListener('touchstart', tryPlayAudio, { once: true });
+        document.addEventListener('keydown', tryPlayAudio, { once: true });
+
+    </script>
+</body>
+</html>
